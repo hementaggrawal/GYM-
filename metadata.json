@@ -1,0 +1,7 @@
+{
+  "name": "Test Gym Insights Dashboard",
+  "description": "Premium real-time analytics platform for Test Gym, featuring dynamic Google Sheet integration and Titan AI assistant.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
