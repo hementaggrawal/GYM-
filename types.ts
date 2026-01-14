@@ -22,6 +22,25 @@ export interface GymRecord {
   Stay_Duration: number;
 }
 
+export interface MemberSummary {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  type: string;
+  attended: number;
+  totalStay: number;
+  sessions: GymRecord[];
+}
+
+export interface TrainerSummary {
+  name: string;
+  id: number;
+  totalAttended: number;
+  classes: Set<string>;
+  sessions: GymRecord[];
+}
+
 export interface User {
   id: string;
   email: string;

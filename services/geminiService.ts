@@ -1,9 +1,10 @@
 
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 import { GymRecord } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
+/**
+ * Generates a system instruction based on current gym data records.
+ */
 const getSystemInstruction = (records: GymRecord[]) => {
   const summary = {
     totalRecords: records.length,
@@ -29,9 +30,15 @@ const getSystemInstruction = (records: GymRecord[]) => {
   - Be professional, data-centric, and concise.`;
 };
 
-export const chatWithTitan = async (message: string, records: GymRecord[]) => {
+/**
+ * Communicates with Gemini to provide AI insights based on gym records.
+ */
+export const chatWithTitan = async (message: string, records: GymRecord[]): Promise<string> => {
   try {
-    const response = await ai.models.generateContent({
+    // Create a new instance right before the call to ensure latest API key/config
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    
+    const response: GenerateContentResponse = await ai.models.generateContent({
       model: 'gemini-3-pro-preview',
       contents: message,
       config: {
