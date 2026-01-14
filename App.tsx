@@ -47,7 +47,8 @@ import {
   BarChart3,
   Timer,
   Flame,
-  ZapOff
+  ZapOff,
+  Briefcase
 } from 'lucide-react';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
@@ -171,7 +172,6 @@ export default function App() {
     
     records.forEach(r => {
       if (r.Attendance_Status === 'Yes' && r.Scheduled_Start_Time) {
-        // Extract hour from "08:00 AM" or "14:30"
         const timeStr = r.Scheduled_Start_Time.toString();
         let hour = parseInt(timeStr.split(':')[0]);
         if (timeStr.toLowerCase().includes('pm') && hour < 12) hour += 12;
@@ -232,9 +232,9 @@ export default function App() {
       annualCount,
       rate: ((attended / total) * 100).toFixed(1),
       avgStay: (records.reduce((acc, r) => acc + (r.Stay_Duration || 0), 0) / (attended || 1)).toFixed(0),
-      revenueProjection: Array.from(membersMap.values()).reduce<number>((acc, m) => acc + (m.type.toLowerCase().includes('annual') ? 12000 : 2500), 0)
+      trainersCount: trainersMap.size
     };
-  }, [records, membersMap]);
+  }, [records, membersMap, trainersMap]);
 
   if (!currentUser) return <Auth onLogin={setCurrentUser} />;
 
@@ -305,7 +305,7 @@ export default function App() {
                   <StatCard label="Unique Members" value={metrics.members} icon={<Users className="text-blue-500" />} />
                   <StatCard label="Annual Enrolled" value={metrics.annualCount} icon={<Award className="text-amber-500" />} />
                   <StatCard label="Attendance Index" value={`${metrics.rate}%`} icon={<CheckCircle2 className="text-emerald-500" />} />
-                  <StatCard label="Rev Outlook" value={`₹${metrics.revenueProjection.toLocaleString('en-IN')}`} icon={<TrendingUp className="text-indigo-500" />} />
+                  <StatCard label="Staff Strength" value={metrics.trainersCount} icon={<Briefcase className="text-indigo-500" />} />
                 </div>
                 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
